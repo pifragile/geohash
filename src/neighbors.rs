@@ -1,3 +1,5 @@
+use fixed::types::I64F64;
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct Neighbors {
     pub sw: String,
@@ -31,16 +33,19 @@ pub enum Direction {
 }
 
 impl Direction {
-    pub fn to_tuple(self) -> (f64, f64) {
+    pub fn to_tuple(self) -> (I64F64, I64F64) {
+        let minus_one = I64F64::from_num(-1);
+        let zero = I64F64::from_num(0);
+        let one = I64F64::from_num(1);
         match self {
-            Direction::SW => (-1f64, -1f64),
-            Direction::S => (-1f64, 0f64),
-            Direction::SE => (-1f64, 1f64),
-            Direction::W => (0f64, -1f64),
-            Direction::E => (0f64, 1f64),
-            Direction::NW => (1f64, -1f64),
-            Direction::N => (1f64, 0f64),
-            Direction::NE => (1f64, 1f64),
+            Direction::SW => (minus_one, minus_one),
+            Direction::S => (minus_one, zero),
+            Direction::SE => (minus_one, one),
+            Direction::W => (zero, minus_one),
+            Direction::E => (zero, one),
+            Direction::NW => (one, minus_one),
+            Direction::N => (one, zero),
+            Direction::NE => (one, one),
         }
     }
 }

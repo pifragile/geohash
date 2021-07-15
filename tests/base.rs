@@ -1,48 +1,43 @@
-extern crate geo_types;
 extern crate geohash;
 
-use geohash::{decode, encode, neighbors, Coordinate};
+use fixed::types::I64F64;
+use geohash::{decode, encode, neighbors};
 
 #[test]
 fn test_encode() {
-    let c0 = Coordinate {
-        x: 112.5584f64,
-        y: 37.8324f64,
-    };
-    assert_eq!(encode(c0, 9usize).unwrap(), "ww8p1r4t8".to_string());
-    let c1 = Coordinate {
-        x: 117f64,
-        y: 32f64,
-    };
-    assert_eq!(encode(c1, 3usize).unwrap(), "wte".to_string());
+    let lon = I64F64::from_num(112.5584);
+    let lat = I64F64::from_num(37.8324f64);
+    assert_eq!(encode(lon, lat, 9usize).unwrap(), "ww8p1r4t8".to_string());
 
-    let c2 = Coordinate {
-        x: 190f64,
-        y: -100f64,
-    };
-    assert!(encode(c2, 3usize).is_err());
+    let lon = I64F64::from_num(117);
+    let lat = I64F64::from_num(32);
+    assert_eq!(encode(lon, lat, 3usize).unwrap(), "wte".to_string());
+
+    let lon = I64F64::from_num(190);
+    let lat = I64F64::from_num(-100);
+    assert!(encode(lon, lat, 3usize).is_err());
 }
 
-fn compare_within(a: f64, b: f64, diff: f64) {
+fn compare_within(a: I64F64, b: I64F64, diff: I64F64) {
     assert!(
         (a - b).abs() < diff,
         format!("{:?} and {:?} should be within {:?}", a, b, diff)
     );
 }
 
-fn compare_decode(gh: &str, exp_lon: f64, exp_lat: f64, exp_lon_err: f64, exp_lat_err: f64) {
-    let (coord, lon_err, lat_err) = decode(gh).unwrap();
-    let diff = 1e-5f64;
+fn compare_decode(gh: &str, exp_lon: I64F64, exp_lat: I64F64, exp_lon_err: I64F64, exp_lat_err: I64F64) {
+    let (lon, lat, lon_err, lat_err) = decode(gh).unwrap();
+    let diff = I64F64::from_num(1e-5);
     compare_within(lon_err, exp_lon_err, diff);
     compare_within(lat_err, exp_lat_err, diff);
-    compare_within(coord.x, exp_lon, diff);
-    compare_within(coord.y, exp_lat, diff);
+    compare_within(lon, exp_lon, diff);
+    compare_within(lat, exp_lat, diff);
 }
 
 #[test]
 fn test_decode() {
-    compare_decode("ww8p1r4t8", 112.558386, 37.832386, 0.000021457, 0.000021457);
-    compare_decode("9g3q", -99.31640625, 19.423828125, 0.17578125, 0.087890625);
+    compare_decode("ww8p1r4t8", I64F64::from_num(112.558386), I64F64::from_num(37.832386), I64F64::from_num(0.000021457), I64F64::from_num(0.000021457));
+    compare_decode("9g3q", I64F64::from_num(-99.31640625), I64F64::from_num(19.423828125), I64F64::from_num(0.175781250), I64F64::from_num(0.087890625));
 
     assert!(decode("abcd").is_err());
 }
