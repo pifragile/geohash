@@ -1,4 +1,5 @@
 use fixed::types::I64F64;
+use crate::String;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Neighbors {

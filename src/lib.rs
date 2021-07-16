@@ -1,5 +1,4 @@
 #![doc(html_root_url = "https://docs.rs/geohash/")]
-
 //! # Geohash
 //!
 //! Geohash algorithm implementation in Rust. It encodes/decodes a
@@ -27,6 +26,11 @@
 //! }
 //! ```
 //!
+//!
+#![no_std]
+extern crate alloc;
+use alloc::string::String;
+
 
 mod core;
 mod error;

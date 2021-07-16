@@ -1,7 +1,7 @@
 use crate::neighbors::Direction;
 use crate::{GeohashError, Neighbors};
 use fixed::types::I64F64;
-
+use crate::String;
 
 #[derive(Debug)]
 struct Coordinate
