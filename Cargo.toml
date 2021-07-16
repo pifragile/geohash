@@ -19,3 +19,4 @@ num-traits = "0.2"
 default-features = false
 git = "https://github.com/encointer/substrate-fixed"
 package = "substrate-fixed"
+tag = "v0.5.6"
