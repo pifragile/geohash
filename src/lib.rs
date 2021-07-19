@@ -29,7 +29,7 @@
 //!
 #![no_std]
 extern crate alloc;
-use alloc::string::String;
+pub use alloc::string::String;
 
 
 mod core;
