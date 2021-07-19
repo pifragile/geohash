@@ -17,10 +17,10 @@
 //!   let lat = I64F64::from_num(37.8324f64);
 //!
 //!   // decode a geohash
-//!   let (lon, lat, _, _) = decode("ww8p1r4t8")?;
+//!   let (lon, lat, _, _) = decode(&String::from("ww8p1r4t8"))?;
 //!
 //!   // find a neighboring hash
-//!   let sw = neighbor("ww8p1r4t8", Direction::SW)?;
+//!   let sw = neighbor(&String::from("ww8p1r4t8"), Direction::SW)?;
 //!
 //!   Ok(())
 //! }

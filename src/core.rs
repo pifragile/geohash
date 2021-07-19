@@ -102,7 +102,7 @@ pub fn encode(lon: I64F64, lat: I64F64, len: usize) -> Result<String, GeohashErr
 /// * max_lat
 /// * min_lon
 /// * max_lon
-fn decode_bbox(hash_str: &str) -> Result<Rectangle, GeohashError> {
+fn decode_bbox(hash_str: &String) -> Result<Rectangle, GeohashError> {
     let mut is_lon = true;
     let mut max_lat = I64F64::from_num(90);
     let mut min_lat = I64F64::from_num(-90);
@@ -176,8 +176,8 @@ fn hash_value_of_char(c: char) -> Result<usize, GeohashError> {
 ///
 /// ```rust
 /// use fixed::types::I64F64;
-/// let geohash_str = "9q60y";
-/// let decoded = geohash::decode(geohash_str).expect("Invalid hash string");
+/// let geohash_str = String::from("9q60y");
+/// let decoded = geohash::decode(&geohash_str).expect("Invalid hash string");
 /// assert_eq!(
 ///     decoded,
 ///     (
@@ -193,8 +193,8 @@ fn hash_value_of_char(c: char) -> Result<usize, GeohashError> {
 ///
 /// ```rust
 /// use fixed::types::I64F64;
-/// let geohash_str = "9q60y60rhs";
-/// let decoded = geohash::decode(geohash_str).expect("Invalid hash string");
+/// let geohash_str = String::from("9q60y60rhs");
+/// let decoded = geohash::decode(&geohash_str).expect("Invalid hash string");
 /// assert_eq!(
 ///     decoded,
 ///     (
@@ -205,7 +205,7 @@ fn hash_value_of_char(c: char) -> Result<usize, GeohashError> {
 ///     ),
 /// );
 /// ```
-pub fn decode(hash_str: &str) -> Result<(I64F64, I64F64, I64F64, I64F64), GeohashError> {
+pub fn decode(hash_str: &String) -> Result<(I64F64, I64F64, I64F64, I64F64), GeohashError> {
     let rect = decode_bbox(hash_str)?;
     let c0 = rect.min;
     let c1 = rect.max;
@@ -219,7 +219,7 @@ pub fn decode(hash_str: &str) -> Result<(I64F64, I64F64, I64F64, I64F64), Geohas
 }
 
 /// Find neighboring geohashes for the given geohash and direction.
-pub fn neighbor(hash_str: &str, direction: Direction) -> Result<String, GeohashError> {
+pub fn neighbor(hash_str: &String, direction: Direction) -> Result<String, GeohashError> {
     let (lon, lat, lon_err, lat_err) = decode(hash_str)?;
     let (dlat, dlng) = direction.to_tuple();
     let two = I64F64::from_num(2);
@@ -233,9 +233,9 @@ pub fn neighbor(hash_str: &str, direction: Direction) -> Result<String, GeohashE
 /// ### Examples
 ///
 /// ```
-/// let geohash_str = "9q60y60rhs";
+/// let geohash_str = String::from("9q60y60rhs");
 ///
-/// let neighbors = geohash::neighbors(geohash_str).expect("Invalid hash string");
+/// let neighbors = geohash::neighbors(&geohash_str).expect("Invalid hash string");
 ///
 /// assert_eq!(
 ///     neighbors,
@@ -251,7 +251,7 @@ pub fn neighbor(hash_str: &str, direction: Direction) -> Result<String, GeohashE
 ///     }
 /// );
 /// ```
-pub fn neighbors(hash_str: &str) -> Result<Neighbors, GeohashError> {
+pub fn neighbors(hash_str: &String) -> Result<Neighbors, GeohashError> {
     Ok(Neighbors {
         sw: neighbor(hash_str, Direction::SW)?,
         s: neighbor(hash_str, Direction::S)?,
