@@ -9,15 +9,15 @@ use alloc::string::String;
 fn test_encode() {
     let lon = I64F64::from_num(112.5584);
     let lat = I64F64::from_num(37.8324f64);
-    assert_eq!(encode(lon, lat, 9usize).unwrap(), String::from("ww8p1r4t8"));
+    assert_eq!(encode(lat, lon, 9usize).unwrap(), String::from("ww8p1r4t8"));
 
     let lon = I64F64::from_num(117);
     let lat = I64F64::from_num(32);
-    assert_eq!(encode(lon, lat, 3usize).unwrap(), String::from("wte"));
+    assert_eq!(encode(lat, lon, 3usize).unwrap(), String::from("wte"));
 
     let lon = I64F64::from_num(190);
     let lat = I64F64::from_num(-100);
-    assert!(encode(lon, lat, 3usize).is_err());
+    assert!(encode(lat, lon, 3usize).is_err());
 }
 
 fn compare_within(a: I64F64, b: I64F64, diff: I64F64) {

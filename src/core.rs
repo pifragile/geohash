@@ -31,7 +31,7 @@ static BASE32_CODES: &[char] = &[
 /// use fixed::types::I64F64;
 /// let lon = I64F64::from_num(-120.6623);
 /// let lat = I64F64::from_num(35.3003);
-/// let geohash_string = geohash::encode(lon, lat, 5).expect("Invalid coordinate");
+/// let geohash_string = geohash::encode(lat, lon, 5).expect("Invalid coordinate");
 /// assert_eq!(geohash_string, "9q60y");
 /// ```
 ///
@@ -41,11 +41,11 @@ static BASE32_CODES: &[char] = &[
 /// use fixed::types::I64F64;
 /// let lon = I64F64::from_num(-120.6623);
 /// let lat = I64F64::from_num(35.3003);
-/// let geohash_string = geohash::encode(lon, lat, 10).expect("Invalid coordinate");
+/// let geohash_string = geohash::encode(lat, lon, 10).expect("Invalid coordinate");
 ///
 /// assert_eq!(geohash_string, "9q60y60rhs");
 /// ```
-pub fn encode(lon: I64F64, lat: I64F64, len: usize) -> Result<String, GeohashError> {
+pub fn encode(lat: I64F64, lon: I64F64, len: usize) -> Result<String, GeohashError> {
     let mut out = String::with_capacity(len);
 
     let mut bits_total: i8 = 0;
@@ -225,7 +225,7 @@ pub fn neighbor(hash_str: &String, direction: Direction) -> Result<String, Geoha
     let two = I64F64::from_num(2);
     let neighbor_lon = lon + two * lon_err.abs() * dlng;
     let neighbor_lat = lat + two * lat_err.abs() * dlat;
-    encode(neighbor_lon, neighbor_lat, hash_str.len())
+    encode(neighbor_lat, neighbor_lon, hash_str.len())
 }
 
 /// Find all neighboring geohashes for the given geohash.
