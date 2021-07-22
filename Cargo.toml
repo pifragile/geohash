@@ -11,10 +11,6 @@ readme = "README.md"
 documentation = "https://docs.rs/geohash/"
 edition = "2018"
 
-[dependencies]
-geo-types = ">=0.6.0, <0.8.0"
-num-traits = "0.2"
-
 [dependencies.fixed]
 default-features = false
 git = "https://github.com/encointer/substrate-fixed"
